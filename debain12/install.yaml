@@ -1,0 +1,24 @@
+---
+- name: Install Vagrant with Libvirt on Debian 12
+  hosts: all
+  become: true
+
+  tasks:
+    - name: Update package list
+      apt:
+        update_cache: yes
+
+    - name: Install Vagrant with libvirt provider
+      apt:
+        name: vagrant-libvirt
+        state: present
+      # when: ansible_distribution == 'Debian' and ansible_distribution_version == '12'
+
+    - name: Verify Vagrant installation
+      command: vagrant --version
+      register: vagrant_version
+      # when: ansible_distribution == 'Debian' and ansible_distribution_version == '12'
+
+    - debug:
+        var: vagrant_version.stdout_lines
+      # when: ansible_distribution == 'Debian' and ansible_distribution_version == '12'
